@@ -1,6 +1,6 @@
 module github.com/dwisiswant0/galer
 
-go 1.15
+go 1.14
 
 require (
 	github.com/Cgboal/exclude-cdn v0.0.0-20201121191501-f2ed5a92fd71 // indirect

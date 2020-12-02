@@ -2,7 +2,6 @@
 
 [![made-with-Go](https://img.shields.io/badge/made%20with-Go-blue.svg)](http://golang.org)
 [![issues](https://img.shields.io/github/issues/dwisiswant0/galer?color=blue)](https://github.com/dwisiswant0/galer/issues)
-[![godoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/dwisiswant0/galer)
 
 ```txt
              __
@@ -31,6 +30,7 @@ A fast tool to fetch URLs from HTML attributes by crawl-in. Inspired by the [@om
 		- [Single URL](#single-url)
 		- [URLs from list](#urls-from-list)
 		- [from Stdin](#from-stdin)
+	- [Library](#library)
 - [TODOs](#todos)
 - [Help & Bugs](#help--bugs)
 - [License](#license)
@@ -122,6 +122,44 @@ In case you want to chained with other tools:
 
 ```bash
 ▶ subfinder -d domain.tld -silent | httpx -silent | galer
+```
+
+### Library
+
+[![godoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/dwisiswant0/galer/pkg/galer)
+
+You can use **galer** as library.
+
+```
+▶ go get github.com/dwisiswant0/galer/pkg/galer
+```
+
+For example:
+
+```go
+package main
+
+import (
+	"fmt"
+
+	"github.com/dwisiswant0/galer/pkg/galer"
+)
+
+func main() {
+	cfg := &galer.Config{
+		Timeout: 60,
+	}
+	cfg = galer.New(cfg)
+
+	run, err := cfg.Crawl("https://twitter.com")
+	if err != nil {
+		panic(err)
+	}
+
+	for _, url := range run {
+		fmt.Println(url)
+	}
+}
 ```
 
 ## TODOs
