@@ -1,6 +1,6 @@
 module github.com/dwisiswant0/galer
 
-go 1.14
+go 1.15
 
 require (
 	github.com/chromedp/chromedp v0.5.3
