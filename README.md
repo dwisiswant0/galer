@@ -52,10 +52,8 @@ The installation is easy. You can download a prebuilt binary from [releases page
 If you have go1.15+ compiler installed and configured:
 
 ```bash
-▶ GO111MODULE=on go get -v github.com/dwisiswant0/galer
+▶ GO111MODULE=on go get github.com/dwisiswant0/galer
 ```
-
-In order to update the tool, you can use `-u` flag with go get command.
 
 ### from GitHub
 
