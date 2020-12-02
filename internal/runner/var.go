@@ -10,7 +10,7 @@ var (
 
 const (
 	author  = "dwisiswant0"
-	version = "0.0.1"
+	version = "0.0.2"
 	banner  = `
              __   v` + version + `
    __    _ _(_ )   __  _ __ 
