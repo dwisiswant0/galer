@@ -164,7 +164,8 @@ func main() {
 
 - [ ] Enable to set extra HTTP headers
 - [ ] Provide randomly User-Agent
-- [ ] Bypass headless
+- [ ] Bypass headless browser
+- [ ] Add exception for specific extensions
 
 ## Help & Bugs
 
