@@ -63,6 +63,13 @@ If you have go1.15+ compiler installed and configured:
 ▶ go build .
 ▶ (sudo) mv galer /usr/local/bin
 ```
+### Chrome DevTools
+To install Chrome, for Chrome DevTools in Debian
+
+```bash
+▶ (sudo) wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+▶ (sudo) sudo apt install ./google-chrome-stable_current_amd64.deb
+```
 
 ## Usage
 
