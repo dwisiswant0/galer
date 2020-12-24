@@ -3,7 +3,6 @@ package runner
 import "github.com/dwisiswant0/galer/pkg/galer"
 
 var (
-	out string
 	opt *Options
 	cfg *galer.Config
 )

@@ -12,17 +12,18 @@ import (
 
 // Options will defines its options
 type Options struct {
-	Concurrency int
-	Timeout     int
-	Depth       int
-	URL         string
-	Ext         string
-	Output      string
-	InScope     bool
-	Silent      bool
-	Verbose     bool
-	List        *bufio.Scanner
-	File        *os.File
+	Timeout  int
+	Depth    int
+	URL      string
+	Path     string
+	Ext      string
+	Output   string
+	InScope  bool
+	Silent   bool
+	Verbose  bool
+	List     *bufio.Scanner
+	File     *os.File
+	ListURLS []string
 }
 
 // Parse user given arguments
@@ -32,8 +33,8 @@ func Parse() *Options {
 	flag.StringVar(&opt.URL, "url", "", "")
 	flag.StringVar(&opt.URL, "u", "", "")
 
-	flag.IntVar(&opt.Concurrency, "concurrency", 50, "")
-	flag.IntVar(&opt.Concurrency, "c", 50, "")
+	flag.StringVar(&opt.Path, "path", "", "")
+	flag.StringVar(&opt.Path, "p", "", "")
 
 	flag.IntVar(&opt.Timeout, "timeout", 60, "")
 	flag.IntVar(&opt.Timeout, "t", 60, "")
