@@ -1,1 +1,160 @@
-galer
+<!DOCTYPE html>
+<html lang="en">
+  
+  <head><h1>Trolley Market </br>
+      Facebook 
+          لمتابعة البث المباشر اضغط على 
+          </br>  pm5:00 الأحد الساعة  
+  <h1> 
+<canvas id="canvas"></canvas>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media Profiles</title>
+    <style>
+        /* Reset CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* Basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .social-icons {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .social-icons li {
+            margin: 10px;
+        }
+        
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 120px;
+            height: 120px;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 50%;
+            font-size: 24px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .social-icons a:hover {
+            background-color: #0056b3;
+        }
+        
+        .social-icons a span {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+      
+     
+        <ul class="social-icons">
+            <!-- Replace "#" with your actual social media profile links -->
+            <li><a href="https://www.facebook.com/profile.php?id=61555211465088&mibextid=ZbWKwL" target="_blank"><i class="fab fa-facebook-f"></i><span>Facebook</span></a></li>
+                       <li><a href="https://www.instagram.com/trolley_market_?igsh=MXV2eDF1aWVyaG92MA==" target="_blank"><i class="fab fa-instagram"></i><span>Instagram</span></a></li>
+   
+            
+        </ul>
+    </div>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Clock</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        #countdown {
+            font-size: 36px;
+        }
+    </style>
+</head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Clock</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        #countdown {
+            font-size: 36px;
+        }
+    </style>
+</head>
+<body>
+    <div id="countdown"></div>
+
+    <script>
+        // Set the date we're counting down to
+        var countDownDate = new Date("April 14, 2024 17:00:00").getTime();
+
+        // Update the countdown every second
+        var x = setInterval(function() {
+
+            // Get the current date and time
+            var now = new Date().getTime();
+
+            // Calculate the distance between now and the countdown date
+            var distance = countDownDate - now;
+
+            // Calculate days, hours, minutes and seconds
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display the result in the element with id="countdown"
+            document.getElementById("countdown").innerHTML = days + "d " + hours + "h "
+            + minutes + "m " + seconds + "s ";
+
+            // If the countdown is over, display text
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("countdown").innerHTML = "EXPIRED";
+            }
+        }, 1000);
+    </script>
+</body>
+<canvas id="canvas"></canvas>
+</html>
+
+</body>
+</html>
