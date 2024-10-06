@@ -1,21 +1,78 @@
+version: 2
+
+before:
+  hooks:
+    - go mod tidy
+    - go mod verify
+
 builds:
-  - binary: galer
-    main: main.go
+  - env:
+      - CGO_ENABLED=0
     goos:
-      - linux
-      - windows
+      - android
       - darwin
+      - freebsd
+      - linux
+      - netbsd
+      - openbsd
+      - solaris
+      - windows
     goarch:
-      - amd64
-      - 386
-      - arm
-      - arm64
-  
+      - "386"
+      - "amd64"
+      - "arm"
+      - "arm64"
+    ignore:
+      - goos: android
+        goarch: "386"
+      - goos: android
+        goarch: "amd64"
+      - goos: android
+        goarch: "arm"
+      - goos: darwin
+        goarch: "386"
+    ldflags:
+      - -s -w
+
 archives:
-  - id: tgz
-    format: tar.gz
-    replacements:
-        darwin: macOS
-    format_overrides:
-        - goos: windows
-          format: zip
+  - format: binary
+    name_template: >-
+      {{- .ProjectName }}_{{- .Tag }}-
+      {{- .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+
+checksum:
+  name_template: "{{ .ProjectName }}_{{ .Tag }}-checksums.txt"
+
+dockers:
+  - image_templates:
+      - "ghcr.io/dwisiswant0/{{ .ProjectName }}:{{ .Tag }}"
+      - "ghcr.io/dwisiswant0/{{ .ProjectName }}:v{{ .Major }}.{{ .Minor }}"
+      - "ghcr.io/dwisiswant0/{{ .ProjectName }}:v{{ .Major }}"
+      - "ghcr.io/dwisiswant0/{{ .ProjectName }}:latest"
+    dockerfile: Dockerfile
+    use: docker
+    build_flag_templates:
+      - "--pull"
+      - "--label=org.opencontainers.image.created={{ .Date }}"
+      - "--label=org.opencontainers.image.description={{ .ProjectName }}"
+      - "--label=org.opencontainers.image.revision={{ .FullCommit }}"
+      - "--label=org.opencontainers.image.source=https://github.com/dwisiswant0/{{ .ProjectName }}"
+      - "--label=org.opencontainers.image.title={{ .ProjectName }}"
+      - "--label=org.opencontainers.image.url=https://github.com/dwisiswant0/{{ .ProjectName }}"
+      - "--label=org.opencontainers.image.version={{ .Version }}"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^build"
+      - "^chore"
+      - "^ci"
+      - "^docs"
+      - "^refactor"
+      - "^test"
+      - Merge pull request
+      - Merge branch

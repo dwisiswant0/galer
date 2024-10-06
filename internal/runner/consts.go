@@ -1,16 +1,8 @@
 package runner
 
-import "github.com/dwisiswant0/galer/pkg/galer"
-
-var (
-	out string
-	opt *Options
-	cfg *galer.Config
-)
-
 const (
 	author  = "dwisiswant0"
-	version = "0.0.2"
+	version = "0.1.0"
 	banner  = `
              __   v` + version + `
    __    _ _(_ )   __  _ __ 

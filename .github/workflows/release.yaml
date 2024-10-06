@@ -1,27 +1,37 @@
 name: Release
+
 on:
-  create:
+  push:
     tags:
-      - v*
+      - "v*"
+
+permissions:
+  contents: write
+  packages: write
 
 jobs: 
   release: 
     runs-on: ubuntu-latest
     steps: 
-      - name: "Check out code"
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with: 
           fetch-depth: 0
 
-      - name: "Set up Go"
-        uses: actions/setup-go@v2
-        with: 
-          go-version: 1.14
+      - uses: actions/setup-go@v5
+        with:
+          check-latest: true
+          go-version-file: 'go.mod'
+          cache-dependency-path: '**/go.sum'
 
-      - name: "Create release on GitHub"
-        uses: goreleaser/goreleaser-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: goreleaser/goreleaser-action@v6
+        with: 
+          args: release --clean
+          version: latest
         env: 
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-        with: 
-          args: "release --rm-dist"
-          version: latest

@@ -5,22 +5,24 @@ import (
 	"errors"
 	"time"
 
-	// "github.com/chromedp/cdproto/network"
+	"github.com/chromedp/cdproto/network"
 	"github.com/chromedp/chromedp"
+	"golang.org/x/exp/slices"
 )
 
 // Config declare its configurations
 type Config struct {
 	Timeout int
 	// Headers network.Headers
-	Context context.Context
-	Cancel  context.CancelFunc
+	ctx    context.Context
+	cancel context.CancelFunc
 }
 
 // New defines context for the configurations
 func New(cfg *Config) *Config {
-	cfg.Context, _ = chromedp.NewContext(context.Background())
-	cfg.Context, cfg.Cancel = context.WithTimeout(cfg.Context, time.Duration(cfg.Timeout)*time.Second)
+	allocCtx, _ := chromedp.NewExecAllocator(context.Background(), execAllocOpts...)
+	cfg.ctx, _ = chromedp.NewContext(allocCtx)
+	cfg.ctx, cfg.cancel = context.WithTimeout(cfg.ctx, time.Duration(cfg.Timeout)*time.Second)
 
 	return cfg
 }
@@ -33,17 +35,33 @@ func (cfg *Config) Crawl(URL string) ([]string, error) {
 		return nil, errors.New("cannot parse URL")
 	}
 
-	err := chromedp.Run(
-		cfg.Context,
-		// network.Enable(),
-		// network.SetExtraHTTPHeaders(network.Headers(cfg.Headers)),
-		chromedp.Navigate(URL),
-		chromedp.Evaluate(script, &res),
-	)
+	ctx, cancel := chromedp.NewContext(cfg.ctx)
+	defer cancel()
 
+	chromedp.ListenTarget(ctx, func(ev interface{}) {
+		switch ev := ev.(type) {
+		case *network.EventRequestWillBeSent: // Outgoing requests
+			url := ev.Request.URL
+			if !IsURI(url) {
+				break
+			}
+
+			if !slices.Contains(res, url) {
+				res = append(res, url)
+			}
+		}
+	})
+
+	err := chromedp.Run(ctx, chromedp.Navigate(URL), chromedp.Evaluate(script, &res))
 	if err != nil {
 		return nil, err
 	}
 
 	return res, nil
+}
+
+func (cfg *Config) Close() error {
+	cfg.cancel()
+
+	return chromedp.Cancel(cfg.ctx)
 }

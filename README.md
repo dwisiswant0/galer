@@ -49,10 +49,10 @@ The installation is easy. You can download a prebuilt binary from [releases page
 
 ### from Source
 
-If you have go1.15+ compiler installed and configured:
+If you have go1.22+ compiler installed and configured:
 
 ```bash
-▶ GO111MODULE=on go get github.com/dwisiswant0/galer
+▶ go install -v github.com/dwisiswant0/galer@latest
 ```
 
 ### from GitHub
@@ -61,7 +61,7 @@ If you have go1.15+ compiler installed and configured:
 ▶ git clone https://github.com/dwisiswant0/galer
 ▶ cd galer
 ▶ go build .
-▶ (sudo) mv galer /usr/local/bin
+▶ (sudo) install galer /usr/local/bin
 ```
 
 ## Usage
@@ -129,7 +129,7 @@ In case you want to chained with other tools:
 You can use **galer** as library.
 
 ```
-▶ go get github.com/dwisiswant0/galer/pkg/galer
+▶ go get github.com/dwisiswant0/galer/pkg/galer@latest
 ```
 
 For example:
@@ -173,15 +173,12 @@ func main() {
 
 If you are still confused or found a bug, please [open the issue](https://github.com/dwisiswant0/galer/issues). All bug reports are appreciated, some features have not been tested yet due to lack of free time.
 
-## License
+## Status
 
-[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+> [!CAUTION]
+> galer has NOT reached 1.0 yet. Therefore, this library is currently not supported and does not offer a stable API; use at your own risk.
 
-**galer** released under MIT. See `LICENSE` for more details.
-
-## Version
-
-**Current version is 0.0.2** and still development.
+There are no guarantees of stability for the APIs in this library, and while they are not expected to change dramatically. API tweaks and bug fixes may occur.
 
 ## Pronunciation
 
@@ -190,3 +187,7 @@ If you are still confused or found a bug, please [open the issue](https://github
 ## Acknowledgement
 
 - [Omar Espino](https://twitter.com/omespino) for the idea, that's why this tool was made!
+
+### License
+
+`sebel` is released by **@dwisiswant0** under the MIT license. See [LICENSE](/LICENSE).
