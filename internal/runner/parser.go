@@ -7,7 +7,6 @@ import (
 	"os"
 
 	"github.com/logrusorgru/aurora"
-	"github.com/projectdiscovery/gologger"
 )
 
 // Options will defines its options
@@ -64,7 +63,7 @@ func Parse() *Options {
 	}
 
 	if err := opt.validate(); err != nil {
-		gologger.Fatalf("Error! %s", err.Error())
+		clog.Fatal("could not validate options", "err", err)
 	}
 
 	return opt

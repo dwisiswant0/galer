@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/dwisiswant0/galer/pkg/galer"
-	"github.com/projectdiscovery/gologger"
 	"github.com/remeh/sizedwaitgroup"
 )
 
@@ -13,16 +12,14 @@ func New(opt *Options) {
 	job := make(chan string)
 	con := opt.Concurrency
 	swg := sizedwaitgroup.New(con)
-	cfg = &galer.Config{
-		Timeout: opt.Timeout,
-	}
+	cfg = &galer.Config{Timeout: opt.Timeout}
+	cfg = galer.New(cfg)
 
 	for i := 0; i < con; i++ {
 		swg.Add()
 		go func() {
 			defer swg.Done()
 			for URL := range job {
-				cfg = galer.New(cfg)
 				run := opt.run(URL, cfg)
 				for _, u := range run {
 					if opt.Ext != "" {
@@ -41,6 +38,7 @@ func New(opt *Options) {
 
 					if out != "" {
 						fmt.Println(out)
+
 						if opt.File != nil {
 							fmt.Fprintf(opt.File, "%s\n", out)
 						}
@@ -57,7 +55,7 @@ func New(opt *Options) {
 
 	close(job)
 	swg.Wait()
-	cfg.Cancel()
+	_ = cfg.Close()
 
 	if opt.File != nil {
 		opt.File.Close()
@@ -67,12 +65,8 @@ func New(opt *Options) {
 func (opt *Options) run(URL string, cfg *galer.Config) []string {
 	res, err := cfg.Crawl(URL)
 	if err != nil && !opt.Silent {
-		msg := "cannot fetch URL"
-		if opt.Verbose {
-			msg = err.Error()
-		}
+		clog.Error(err, "url", URL)
 
-		gologger.Errorf("Error '%s': %s.", URL, msg)
 		return []string{}
 	}
 
