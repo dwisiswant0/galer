@@ -7,7 +7,7 @@ toolchain go1.23.1
 require (
 	github.com/charmbracelet/log v0.4.0
 	github.com/chromedp/cdproto v0.0.0-20241003230502-a4a8f7c660df
-	github.com/chromedp/chromedp v0.10.0
+	github.com/chromedp/chromedp v0.11.0
 	github.com/logrusorgru/aurora v2.0.3+incompatible
 	github.com/remeh/sizedwaitgroup v1.0.0
 	golang.org/x/exp v0.0.0-20241004190924-225e2abe05e6
@@ -29,5 +29,5 @@ require (
 	github.com/muesli/reflow v0.3.0 // indirect
 	github.com/muesli/termenv v0.15.2 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
-	golang.org/x/sys v0.22.0 // indirect
+	golang.org/x/sys v0.26.0 // indirect
 )
