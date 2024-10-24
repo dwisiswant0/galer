@@ -84,17 +84,18 @@ Simply, galer can be run with:
 
 This will display help for the tool. Here are all the switches it supports.
 
-| **Flag**          	| **Description**                                                 	|
-|-------------------	|-----------------------------------------------------------------	|
-| -u, --url         	| Target to fetches _(single target URL or list)_                 	|
-| -e, --extension   	| Show only certain extensions _(comma-separated, e.g. js,php)_   	|
-| -c, --concurrency 	| Concurrency level _(default: 50)_                               	|
-|     --in-scope    	| Show in-scope URLs/same host only                               	|
-| -o, --output      	| Save fetched URLs output into file                              	|
-| -t, --timeout     	| Maximum time _(seconds)_ allowed for connection _(default: 60)_ 	|
-| -s, --silent      	| Silent mode _(suppress an errors)_                              	|
-| -v, --verbose     	| Verbose mode show error details unless you weren't use silent   	|
-| -h, --help        	| Display its helps                                               	|
+| **Flag**              | **Description**                                                   |
+|-------------------    |-----------------------------------------------------------------  |
+| -u, --url             | Target to fetches _(single target URL or list)_                   |
+| -e, --extension       | Show only certain extensions _(comma-separated, e.g. js,php)_     |
+| -c, --concurrency     | Concurrency level _(default: 50)_                                 |
+|     --same-host       | Same host only                                                    |
+|     --same-root       | Same root (eTLD+1) only (takes precedence over --same-host)       |
+| -o, --output          | Save fetched URLs output into file                                |
+| -t, --timeout         | Maximum time _(seconds)_ allowed for connection _(default: 60)_   |
+| -s, --silent          | Silent mode _(suppress an errors)_                                |
+| -v, --verbose         | Verbose mode show error details unless you weren't use silent     |
+| -h, --help            | Display its helps                                                 |
 
 ### Examples
 
