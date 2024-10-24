@@ -2,63 +2,107 @@ package runner
 
 import (
 	"fmt"
+	"io"
+	"os"
 
 	"github.com/dwisiswant0/galer/pkg/galer"
 	"github.com/remeh/sizedwaitgroup"
 )
 
-// New to executes galer
-func New(opt *Options) {
-	job := make(chan string)
-	con := opt.Concurrency
-	swg := sizedwaitgroup.New(con)
-	cfg = &galer.Config{
-		Timeout:  opt.Timeout,
-		SameHost: opt.SameHost,
-		SameRoot: opt.SameRoot,
+type Runner struct {
+	opt   *Options
+	swg   sizedwaitgroup.SizedWaitGroup
+	urls  map[string]bool
+	galer *galer.Config
+}
+
+// New initialize [Runner]
+func New(opt *Options) *Runner {
+	return &Runner{
+		opt:  opt,
+		swg:  sizedwaitgroup.New(opt.Concurrency),
+		urls: make(map[string]bool),
+		galer: &galer.Config{
+			Logger:   clog,
+			SameHost: opt.SameHost,
+			SameRoot: opt.SameRoot,
+			Template: opt.Template,
+			Timeout:  opt.Timeout,
+			Wait:     opt.Wait,
+		},
 	}
-	cfg = galer.New(cfg)
+}
 
-	for i := 0; i < con; i++ {
-		swg.Add()
+// Do runs crawling
+func (r *Runner) Do() {
+	jobs := make(chan string)
+
+	for i := 0; i < r.opt.Concurrency; i++ {
+		r.swg.Add()
 		go func() {
-			defer swg.Done()
-			for URL := range job {
-				run := opt.run(URL, cfg)
-				for _, u := range run {
-					if opt.Ext != "" {
-						if !opt.isOnExt(u) {
-							continue
-						}
-					}
-
-					fmt.Println(u)
-
-					if opt.File != nil {
-						fmt.Fprintf(opt.File, "%s\n", out)
-					}
-				}
+			defer r.swg.Done()
+			for job := range jobs {
+				r.galer.SetScope(job)
+				r.run(job, 1)
 			}
 		}()
 	}
 
-	for opt.List.Scan() {
-		u := opt.List.Text()
-		job <- u
+	for r.opt.List.Scan() {
+		u := r.opt.List.Text()
+		jobs <- u
 	}
 
-	close(job)
-	swg.Wait()
-	_ = cfg.Close()
+	close(jobs)
+	r.swg.Wait()
+	r.galer.Close()
 
-	if opt.File != nil {
-		opt.File.Close()
+	if r.opt.File != nil {
+		r.opt.File.Close()
 	}
 }
 
-func (opt *Options) run(URL string, cfg *galer.Config) []string {
+func (r *Runner) run(URL string, counter int) {
+	cfg := galer.New(r.galer)
+
+	var writer io.Writer = os.Stdout
+	if r.opt.File != nil {
+		writer = io.MultiWriter(os.Stdout, r.opt.File)
+	}
+
+	for counter <= r.opt.Depth {
+		crawl := r.crawl(URL, cfg)
+		if len(crawl) == 0 {
+			break
+		}
+		counter++
+
+		var batches []string
+		for _, u := range crawl {
+			if !r.urls[u] {
+				fmt.Fprintf(writer, "%s\n", u)
+				batches = append(batches, u)
+				r.urls[u] = true
+			}
+		}
+
+		for _, u := range batches {
+			if r.opt.Ext != "" {
+				if !r.opt.isOnExt(u) {
+					continue
+				}
+			}
+
+			if counter <= r.opt.Depth {
+				r.run(u, counter+1)
+			}
+		}
+	}
+}
+
+func (r *Runner) crawl(URL string, cfg *galer.Config) []string {
 	res, err := cfg.Crawl(URL)
-	if err != nil && !opt.Silent {
+	if err != nil && opt.Verbose {
 		clog.Error(err, "url", URL)
 
 		return []string{}

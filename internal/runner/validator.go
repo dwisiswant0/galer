@@ -24,7 +24,7 @@ func (opt *Options) validate() error {
 			opt.List = bufio.NewScanner(f)
 		}
 	} else {
-		return errors.New("No target inputs provided")
+		return errors.New("no target inputs provided")
 	}
 
 	if opt.Output != "" {
