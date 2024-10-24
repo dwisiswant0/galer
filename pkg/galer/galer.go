@@ -29,7 +29,7 @@ func New(cfg *Config) *Config {
 
 // Crawl to navigate to the URL & dump URLs on it
 func (cfg *Config) Crawl(URL string) ([]string, error) {
-	var res []string
+	var res, reqs []string
 
 	if !IsURI(URL) {
 		return nil, errors.New("cannot parse URL")
@@ -46,16 +46,25 @@ func (cfg *Config) Crawl(URL string) ([]string, error) {
 				break
 			}
 
-			if !slices.Contains(res, url) {
-				res = append(res, url)
+			if url == URL {
+				break
+			}
+
+			if !slices.Contains(reqs, url) {
+				reqs = append(reqs, url)
 			}
 		}
 	})
 
-	err := chromedp.Run(ctx, chromedp.Navigate(URL), chromedp.Evaluate(script, &res))
+	err := chromedp.Run(ctx,
+		chromedp.Navigate(URL),
+		chromedp.Evaluate(script, &res),
+	)
 	if err != nil {
 		return nil, err
 	}
+
+	res = MergeSlices(res, reqs)
 
 	return res, nil
 }
