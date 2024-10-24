@@ -1,6 +1,7 @@
 module github.com/dwisiswant0/galer
 
-go 1.22.0
+go 1.23
+
 toolchain go1.23.1
 
 require (
@@ -29,5 +30,7 @@ require (
 	github.com/muesli/reflow v0.3.0 // indirect
 	github.com/muesli/termenv v0.15.2 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
+	github.com/valyala/bytebufferpool v1.0.0 // indirect
+	github.com/valyala/fasttemplate v1.2.2 // indirect
 	golang.org/x/sys v0.26.0 // indirect
 )

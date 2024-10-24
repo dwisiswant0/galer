@@ -6,4 +6,5 @@ var execAllocOpts = append(
 	chromedp.DefaultExecAllocatorOptions[:],
 	chromedp.DisableGPU,
 	chromedp.IgnoreCertErrors,
+	// chromedp.Flag("headless", false),
 )
