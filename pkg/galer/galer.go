@@ -3,16 +3,21 @@ package galer
 import (
 	"context"
 	"errors"
+	"net/url"
 	"time"
 
 	"github.com/chromedp/cdproto/network"
 	"github.com/chromedp/chromedp"
 	"golang.org/x/exp/slices"
+	"golang.org/x/net/publicsuffix"
 )
 
 // Config declare its configurations
 type Config struct {
-	Timeout int
+	Timeout  int
+	SameHost bool
+	SameRoot bool
+
 	// Headers network.Headers
 	ctx    context.Context
 	cancel context.CancelFunc
@@ -34,6 +39,7 @@ func (cfg *Config) Crawl(URL string) ([]string, error) {
 	if !IsURI(URL) {
 		return nil, errors.New("cannot parse URL")
 	}
+	u, _ := url.Parse(URL)
 
 	ctx, cancel := chromedp.NewContext(cfg.ctx)
 	defer cancel()
@@ -65,6 +71,27 @@ func (cfg *Config) Crawl(URL string) ([]string, error) {
 	}
 
 	res = MergeSlices(res, reqs)
+
+	// filters
+	switch {
+	case cfg.SameRoot:
+		for i := 0; i < len(res); i++ {
+			r, _ := url.Parse(res[i])
+			base, _ := publicsuffix.EffectiveTLDPlusOne(r.Host)
+			if base != u.Host {
+				res = append(res[:i], res[i+1:]...)
+				i--
+			}
+		}
+	case cfg.SameHost:
+		for i := 0; i < len(res); i++ {
+			r, _ := url.Parse(res[i])
+			if r.Host != u.Host {
+				res = append(res[:i], res[i+1:]...)
+				i--
+			}
+		}
+	}
 
 	return res, nil
 }

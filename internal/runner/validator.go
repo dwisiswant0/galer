@@ -3,7 +3,6 @@ package runner
 import (
 	"bufio"
 	"errors"
-	"net/url"
 	"os"
 	"path/filepath"
 	"strings"
@@ -51,19 +50,19 @@ func isStdin() bool {
 	return true
 }
 
-func isScope(target string, URL string) bool {
-	t, e := url.Parse(target)
-	if e != nil {
-		return false
-	}
+// func isScope(target string, URL string) bool {
+// 	t, e := url.Parse(target)
+// 	if e != nil {
+// 		return false
+// 	}
 
-	u, e := url.Parse(URL)
-	if e != nil {
-		return false
-	}
+// 	u, e := url.Parse(URL)
+// 	if e != nil {
+// 		return false
+// 	}
 
-	return t.Host == u.Host
-}
+// 	return t.Host == u.Host
+// }
 
 func (opt *Options) isOnExt(URL string) bool {
 	for _, e := range strings.Split(opt.Ext, ",") {

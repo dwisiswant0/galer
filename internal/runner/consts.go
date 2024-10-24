@@ -22,7 +22,8 @@ Options:
   -u, --url <URL/FILE>        Target to fetches (single target URL or list)
   -e, --extension <EXT>       Show only certain extensions (comma-separated, e.g. js,php)
   -c, --concurrency <int>     Concurrency level (default: 50)
-      --in-scope              Show in-scope URLs/same host only
+      --same-host             Same host only
+      --same-root             Same root (eTLD+1) only (takes precedence over --same-host)
   -o, --output <FILE>         Save fetched URLs output into file
   -t, --timeout <int>         Maximum time (seconds) allowed for connection (default: 60)
   -s, --silent                Silent mode (suppress an errors)
