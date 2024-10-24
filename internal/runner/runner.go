@@ -12,7 +12,11 @@ func New(opt *Options) {
 	job := make(chan string)
 	con := opt.Concurrency
 	swg := sizedwaitgroup.New(con)
-	cfg = &galer.Config{Timeout: opt.Timeout}
+	cfg = &galer.Config{
+		Timeout:  opt.Timeout,
+		SameHost: opt.SameHost,
+		SameRoot: opt.SameRoot,
+	}
 	cfg = galer.New(cfg)
 
 	for i := 0; i < con; i++ {
@@ -28,20 +32,10 @@ func New(opt *Options) {
 						}
 					}
 
-					if opt.InScope {
-						if isScope(URL, u) {
-							out = u
-						}
-					} else {
-						out = u
-					}
+					fmt.Println(u)
 
-					if out != "" {
-						fmt.Println(out)
-
-						if opt.File != nil {
-							fmt.Fprintf(opt.File, "%s\n", out)
-						}
+					if opt.File != nil {
+						fmt.Fprintf(opt.File, "%s\n", out)
 					}
 				}
 			}

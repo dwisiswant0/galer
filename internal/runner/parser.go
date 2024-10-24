@@ -17,7 +17,8 @@ type Options struct {
 	URL         string
 	Ext         string
 	Output      string
-	InScope     bool
+	SameHost    bool
+	SameRoot    bool
 	Silent      bool
 	Verbose     bool
 	List        *bufio.Scanner
@@ -40,7 +41,8 @@ func Parse() *Options {
 	flag.StringVar(&opt.Ext, "e", "", "")
 	flag.StringVar(&opt.Ext, "extension", "", "")
 
-	flag.BoolVar(&opt.InScope, "in-scope", false, "")
+	flag.BoolVar(&opt.SameHost, "same-host", false, "")
+	flag.BoolVar(&opt.SameRoot, "same-root", false, "")
 
 	flag.StringVar(&opt.Output, "output", "", "")
 	flag.StringVar(&opt.Output, "o", "", "")
