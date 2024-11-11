@@ -7,9 +7,10 @@ toolchain go1.23.1
 require (
 	github.com/charmbracelet/log v0.4.0
 	github.com/chromedp/cdproto v0.0.0-20241022234722-4d5d5faf59fb
-	github.com/chromedp/chromedp v0.11.1
+	github.com/chromedp/chromedp v0.11.2
 	github.com/logrusorgru/aurora v2.0.3+incompatible
 	github.com/remeh/sizedwaitgroup v1.0.0
+	github.com/valyala/fasttemplate v1.2.2
 	golang.org/x/exp v0.0.0-20241004190924-225e2abe05e6
 	golang.org/x/net v0.30.0
 )
@@ -31,6 +32,5 @@ require (
 	github.com/muesli/termenv v0.15.2 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
-	github.com/valyala/fasttemplate v1.2.2 // indirect
 	golang.org/x/sys v0.26.0 // indirect
 )
